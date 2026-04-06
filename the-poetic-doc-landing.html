@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Poetic Doc — Email Copy That Converts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brown: #2c1f0e;
+    --gold: #b8935a;
+    --gold-light: #d4aa72;
+    --cream: #faf7f2;
+    --cream-dark: #f0ebe2;
+    --brown-mid: #4a3520;
+    --brown-light: #6b4f34;
+    --text-muted: #9e8877;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--brown);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(44, 31, 14, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184, 147, 90, 0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--cream); font-style: italic; font-weight: 300; }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav ul a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  nav ul a:hover { opacity: 1; color: var(--gold); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    opacity: 1 !important;
+    transition: background 0.3s, color 0.3s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,147,90,0.12) 0%, transparent 70%);
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .hero-bg-line {
+    position: absolute;
+    left: 0; top: 0;
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(184,147,90,0.3), transparent);
+    left: 4rem;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 5.5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(250, 247, 242, 0.65);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s ease forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s ease forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--brown);
+    padding: 1rem 2.4rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(250,247,242,0.3);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.5s ease forwards;
+  }
+
+  .hero-card {
+    width: 340px;
+    background: rgba(74, 53, 32, 0.4);
+    border: 1px solid rgba(184, 147, 90, 0.25);
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .hero-card::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: -1.5rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+
+  .hero-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-card-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--brown-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  .hero-card-author small {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero-card-author span {
+    font-size: 0.82rem;
+    color: rgba(250,247,242,0.6);
+    display: block;
+  }
+
+  .hero-card-badge {
+    position: absolute;
+    top: -12px; right: 2rem;
+    background: var(--gold);
+    color: var(--brown);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(184,147,90,0.15);
+    opacity: 0;
+    animation: fadeUp 0.8s 1s ease forwards;
+  }
+
+  .stat-item { text-align: left; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.5);
+    margin-top: 0.3rem;
+  }
+
+  /* ── MARQUEE STRIP ── */
+  .strip {
+    padding: 1.1rem 0;
+    background: var(--gold);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .strip-inner {
+    display: inline-flex;
+    animation: marquee 22s linear infinite;
+  }
+
+  .strip-item {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brown);
+    padding: 0 3rem;
+  }
+
+  .strip-dot {
+    color: var(--brown);
+    opacity: 0.4;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 4rem; }
+
+  .section-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-eyebrow::after {
+    content: '';
+    display: block;
+    width: 3rem; height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  h2 em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about { background: var(--cream); color: var(--brown); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about .section-eyebrow { color: var(--brown-light); }
+  .about .section-eyebrow::after { background: var(--brown-light); }
+  .about h2 em { color: var(--brown-light); }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--brown-mid);
+    margin-top: 1.5rem;
+    font-weight: 300;
+  }
+
+  .about-text p strong { color: var(--brown); font-weight: 600; }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-card-main {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 3rem;
+    position: relative;
+  }
+
+  .about-card-main::after {
+    content: '';
+    position: absolute;
+    bottom: -12px; right: -12px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--gold);
+    z-index: -1;
+  }
+
+  .about-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .about-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.5);
+    margin-bottom: 1.8rem;
+  }
+
+  .about-card-main p {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: rgba(250,247,242,0.75);
+    font-weight: 300;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.8rem;
+  }
+
+  .tag {
+    background: rgba(184,147,90,0.15);
+    border: 1px solid rgba(184,147,90,0.3);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+  }
+
+  /* ── SERVICES ── */
+  .services { background: var(--brown); }
+  .services-header { max-width: 600px; margin-bottom: 4rem; }
+  .services-header p { margin-top: 1.2rem; color: rgba(250,247,242,0.55); font-size: 1rem; line-height: 1.8; font-weight: 300; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: rgba(184,147,90,0.1);
+    max-width: 1200px;
+  }
+
+  .service-card {
+    background: var(--brown);
+    padding: 2.8rem 2.5rem;
+    border: 1px solid rgba(184,147,90,0.1);
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    border-color: rgba(184,147,90,0.4);
+    background: rgba(74,53,32,0.5);
+  }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: rgba(184,147,90,0.2);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-card p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: rgba(250,247,242,0.55);
+    font-weight: 300;
+  }
+
+  .service-pill {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(184,147,90,0.35);
+    padding-bottom: 2px;
+  }
+
+  /* ── PROCESS ── */
+  .process { background: #1e1509; }
+  .process-header { text-align: center; max-width: 600px; margin: 0 auto 5rem; }
+  .process-header .section-eyebrow { justify-content: center; }
+  .process-header .section-eyebrow::after { display: none; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem; left: 12%; right: 12%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(184,147,90,0.3), rgba(184,147,90,0.3), transparent);
+    z-index: 0;
+  }
+
+  .step {
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-circle {
+    width: 4rem; height: 4rem;
+    border-radius: 50%;
+    border: 1px solid rgba(184,147,90,0.4);
+    background: var(--brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold);
+    transition: background 0.3s;
+  }
+
+  .step:hover .step-circle { background: rgba(184,147,90,0.15); }
+
+  .step h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .step p {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: rgba(250,247,242,0.5);
+    font-weight: 300;
+  }
+
+  /* ── RESULTS ── */
+  .results { background: var(--cream); color: var(--brown); }
+  .results .section-eyebrow { color: var(--brown-light); }
+  .results .section-eyebrow::after { background: var(--brown-light); }
+
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1200px;
+    margin-bottom: 4rem;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+  }
+
+  .result-card {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 4px; height: 0;
+    background: var(--gold);
+    transition: height 0.4s;
+  }
+
+  .result-card:hover::before { height: 100%; }
+
+  .result-metric {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.5);
+    margin-bottom: 1.5rem;
+  }
+
+  .result-card p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: rgba(250,247,242,0.7);
+    font-weight: 300;
+    border-top: 1px solid rgba(184,147,90,0.2);
+    padding-top: 1.5rem;
+  }
+
+  .result-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--brown); }
+  .testimonials-header { max-width: 600px; margin-bottom: 4rem; }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1100px;
+  }
+
+  .testi-card {
+    background: rgba(74,53,32,0.3);
+    border: 1px solid rgba(184,147,90,0.12);
+    padding: 2.5rem;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .testi-card:hover { border-color: rgba(184,147,90,0.35); }
+
+  .testi-stars {
+    display: flex;
+    gap: 0.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .star { color: var(--gold); font-size: 0.85rem; }
+
+  .testi-card blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--cream);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .testi-avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(184,147,90,0.4), rgba(184,147,90,0.1));
+    border: 1px solid rgba(184,147,90,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .testi-name { font-size: 0.88rem; font-weight: 500; color: var(--cream); }
+  .testi-role { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--text-muted); margin-top: 0.15rem; }
+
+  /* ── LEAD MAGNET ── */
+  .lead-magnet {
+    background: linear-gradient(135deg, var(--brown-mid), var(--brown));
+    border-top: 1px solid rgba(184,147,90,0.15);
+    border-bottom: 1px solid rgba(184,147,90,0.15);
+  }
+
+  .lm-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .lm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(184,147,90,0.15);
+    border: 1px solid rgba(184,147,90,0.3);
+    padding: 0.4rem 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .lm-badge::before { content: '★'; font-size: 0.7rem; }
+
+  .lm-content h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin-bottom: 1.2rem;
+  }
+
+  .lm-content p {
+    color: rgba(250,247,242,0.6);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .lm-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .lm-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: rgba(250,247,242,0.75);
+    font-weight: 300;
+  }
+
+  .lm-checklist li::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    margin-top: 0.05rem;
+  }
+
+  .lm-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 440px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.4);
+  }
+
+  .form-group input {
+    background: rgba(250,247,242,0.05);
+    border: 1px solid rgba(184,147,90,0.25);
+    color: var(--cream);
+    padding: 0.9rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+
+  .form-group input:focus { border-color: var(--gold); }
+  .form-group input::placeholder { color: rgba(250,247,242,0.3); }
+
+  .form-note {
+    font-size: 0.72rem;
+    color: rgba(250,247,242,0.3);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FAQ ── */
+  .faq { background: var(--cream); color: var(--brown); }
+  .faq-header { max-width: 600px; margin-bottom: 3rem; }
+  .faq .section-eyebrow { color: var(--brown-light); }
+  .faq .section-eyebrow::after { background: var(--brown-light); }
+
+  .faq-list { max-width: 800px; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(44,31,14,0.12);
+    padding: 1.8rem 0;
+    cursor: pointer;
+  }
+
+  .faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--brown);
+    user-select: none;
+  }
+
+  .faq-icon {
+    width: 1.5rem; height: 1.5rem;
+    border: 1px solid rgba(44,31,14,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--brown-light);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--brown-mid);
+    font-weight: 300;
+  }
+
+  .faq-item.open .faq-a { max-height: 200px; padding-top: 1rem; }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    background: var(--brown);
+    text-align: center;
+    padding: 8rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,147,90,0.08) 0%, transparent 65%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .final-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+  .final-cta .section-eyebrow { justify-content: center; margin-bottom: 1.5rem; }
+  .final-cta .section-eyebrow::after { display: none; }
+  .final-cta h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 1.5rem; }
+
+  .final-cta p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(250,247,242,0.55);
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+  }
+
+  .cta-actions { display: flex; gap: 1.2rem; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #150e05;
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(184,147,90,0.1);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-logo span { color: var(--cream); font-style: italic; font-weight: 300; }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: rgba(250,247,242,0.45);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(184,147,90,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(250,247,242,0.5);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  .footer-copy {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.7rem;
+    color: rgba(250,247,242,0.2);
+    letter-spacing: 0.1em;
+    border-top: 1px solid rgba(184,147,90,0.08);
+    padding-top: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav ul { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    .about-grid, .lm-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid, .results-grid, .testi-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .steps::before { display: none; }
+    .results-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .footer-inner { flex-direction: column; gap: 2rem; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    final-cta { padding: 5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">The Poetic <span>Doc</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact" class="nav-cta">Work With Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-line"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Email Copywriting · Storytelling · Conversion</p>
+    <h1>
+      Where <em>Poetry</em><br>
+      Meets Precision<br>
+      in the Inbox
+    </h1>
+    <p class="hero-sub">
+      I write email copy that reads like a story — and sells like a surgeon.
+      Built for brands in Nigeria &amp; the US who know their audience deserves better than bland.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Free Strategy Call</a>
+      <a href="#services" class="btn-ghost">See What I Do →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">47%</div>
+        <div class="stat-label">Avg. Open Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2×</div>
+        <div class="stat-label">Click-Through Lift</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Sequences Written</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-badge">Sample Email</div>
+      <p>"You didn't just buy a ring. You chose a moment that will outlive the room it happened in. Here's how to make sure she never forgets it…"</p>
+      <div class="hero-card-author">
+        <div class="avatar">P</div>
+        <div>
+          <small>The Poetic Doc</small>
+          <span>Welcome Email · Luxury Jewelry</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-inner">
+    <span class="strip-item">Welcome Sequences</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Sales Campaigns</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Nurture Flows</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Re-engagement Series</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Launch Sequences</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Abandoned Cart Flows</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Newsletter Strategy</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Welcome Sequences</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Sales Campaigns</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Nurture Flows</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Re-engagement Series</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Launch Sequences</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Abandoned Cart Flows</span><span class="strip-dot">◆</span>
+    <span class="strip-item">Newsletter Strategy</span><span class="strip-dot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-eyebrow">About the Copywriter</p>
+      <h2>A Medical Mind.<br>A <em>Poet's</em> Pen.</h2>
+      <p>
+        Most copywriters pick one lane — clever or clinical. I was trained to be both.
+        As a <strong>medical student</strong> and email strategist, I bring diagnostic precision to every campaign:
+        I study your audience, identify their pain, and craft copy that speaks directly to what moves them.
+      </p>
+      <p>
+        The result? Emails that don't just get opened — they get <strong>remembered, shared, and acted upon.</strong>
+        Whether you're selling luxury, education, or transformation, I write words that carry weight.
+      </p>
+    </div>
+
+    <div class="about-visual reveal">
+      <div class="about-card-main">
+        <div class="about-name">Precious O.</div>
+        <div class="about-title">Founder · The Poetic Doc · @thepoeticdoc_ng</div>
+        <p>Email copywriter. Medical student. Storyteller who believes the best sales happen when the reader forgets they're being sold to — and only remembers how you made them feel.</p>
+        <div class="about-tags">
+          <span class="tag">Email Strategy</span>
+          <span class="tag">Story-Driven Copy</span>
+          <span class="tag">Nigeria & US Markets</span>
+          <span class="tag">Conversion Sequences</span>
+          <span class="tag">Brand Voice</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <p class="section-eyebrow">What I Offer</p>
+    <h2>Email Copy That<br><em>Works While You Sleep</em></h2>
+    <p>Every sequence is researched, written, and optimised around one goal: making your subscriber feel so seen that hitting "buy" feels inevitable.</p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3>Welcome Sequences</h3>
+      <p>First impressions compound. A 5–7 email welcome flow that converts new subscribers into warm, brand-loyal buyers before they ever see a sales email.</p>
+      <span class="service-pill">Most Popular</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3>Sales Launch Sequences</h3>
+      <p>From pre-launch hype to cart-close urgency — full campaign strategy with story arcs, objection handling, and conversion hooks engineered for maximum revenue.</p>
+      <span class="service-pill">High ROI</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3>Nurture & Newsletter Copy</h3>
+      <p>Stay top-of-mind between launches. Consistent, personality-rich emails that build authority, deepen trust, and prime your list to buy when the time comes.</p>
+      <span class="service-pill">Retention</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <h3>Re-engagement Campaigns</h3>
+      <p>Your cold list is a goldmine. A strategic 4-email win-back sequence designed to revive dormant subscribers and quietly remove those who'll never convert.</p>
+      <span class="service-pill">Recovery</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <h3>Abandoned Cart Flows</h3>
+      <p>Recover lost revenue with psychology-driven follow-up sequences. 3–5 emails that remind, reassure, and compel without feeling pushy or desperate.</p>
+      <span class="service-pill">Revenue Recovery</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <h3>Email Audit & Strategy</h3>
+      <p>Not sure where your emails are failing? Get a full audit of your current sequences plus a custom roadmap for what to fix, add, and prioritise first.</p>
+      <span class="service-pill">Strategy</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-header reveal">
+    <p class="section-eyebrow">How It Works</p>
+    <h2>Simple. <em>Surgical.</em> Seamless.</h2>
+  </div>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-circle">01</div>
+      <h4>Discovery Call</h4>
+      <p>We talk about your brand, audience, goals, and what's not working. 30 minutes, no fluff.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">02</div>
+      <h4>Deep Research</h4>
+      <p>I study your customer language, competitors, and conversion gaps before writing a single word.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">03</div>
+      <h4>Copy & Delivery</h4>
+      <p>Full sequence delivered in a polished Google Doc with subject lines, preview text, and annotations.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">04</div>
+      <h4>Revise & Launch</h4>
+      <p>Two rounds of revisions included. Then you go live — and the emails do the heavy lifting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results" id="results">
+  <div class="results-header reveal">
+    <div>
+      <p class="section-eyebrow">Proof in the Numbers</p>
+      <h2>Copy That <em>Converts</em></h2>
+    </div>
+    <a href="#contact" class="btn-primary">Get These Results</a>
+  </div>
+
+  <div class="results-grid reveal">
+    <div class="result-card">
+      <div class="result-metric">68%</div>
+      <div class="result-label">Open Rate</div>
+      <p>Welcome sequence for a Nigerian luxury jewellery brand — boosted subscriber engagement from day one and drove repeat store visits within the first 30 days.</p>
+      <span class="result-tag">Luchysluxe · Jewelry</span>
+    </div>
+    <div class="result-card">
+      <div class="result-metric">3.2×</div>
+      <div class="result-label">Click-to-Sale Rate</div>
+      <p>7-part launch sequence for an edtech platform resulted in a 3.2× improvement in trial sign-ups versus their previous un-sequenced email sends.</p>
+      <span class="result-tag">Achilles Drill · EdTech</span>
+    </div>
+    <div class="result-card">
+      <div class="result-metric">₦4.1M</div>
+      <div class="result-label">Revenue Attributed</div>
+      <p>6-email sales campaign for a coaching offer in the Nigerian market — responsible for 67% of total launch revenue within a 5-day window.</p>
+      <span class="result-tag">Coaching · Nigeria</span>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-header reveal">
+    <p class="section-eyebrow">What Clients Say</p>
+    <h2>Real Results. <em>Real People.</em></h2>
+  </div>
+
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <blockquote>"I've worked with copywriters before, but Precious writes emails that actually sound like us — and somehow better. Our open rates went from 22% to nearly 60% in two months."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Adaeze N.</div>
+          <div class="testi-role">Founder, Luxury Brand · Lagos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <blockquote>"The welcome sequence he wrote converted 34% of new subscribers into paying students within the first week. The ROI on this investment was immediately obvious."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">K</div>
+        <div>
+          <div class="testi-name">Kolade A.</div>
+          <div class="testi-role">CEO, EdTech Platform · Abuja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <blockquote>"I didn't expect poetry to sell skincare, but here we are. My re-engagement campaign won back 40% of my cold list. The emails were genuinely beautiful to read."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">T</div>
+        <div>
+          <div class="testi-name">Temi O.</div>
+          <div class="testi-role">Founder, Skincare Brand · Port Harcourt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <blockquote>"Working with The Poetic Doc was effortless. He understood my US audience immediately, and the copy had a warmth and specificity I couldn't get from any other copywriter I'd tried."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <div class="testi-name">Michelle R.</div>
+          <div class="testi-role">Online Coach · New York, US</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD MAGNET -->
+<section class="lead-magnet">
+  <div class="lm-inner">
+    <div class="lm-content reveal">
+      <div class="lm-badge">Free Resource</div>
+      <h2>Steal My 5-Email<br><em>Welcome Sequence</em> Framework</h2>
+      <p>The exact structure I use to write welcome sequences that convert 30–40% of new subscribers. Plug in your brand, fill the blanks, send tomorrow.</p>
+      <ul class="lm-checklist">
+        <li>The 5 emails every welcome sequence must include</li>
+        <li>Subject line formulas that get 50%+ open rates</li>
+        <li>The storytelling hook that makes Email 1 unforgettable</li>
+        <li>When (and how) to introduce your first soft sell</li>
+        <li>My personal "Customer-as-Hero" copy framework</li>
+      </ul>
+    </div>
+
+    <div class="lm-form reveal">
+      <div class="form-group">
+        <label>Your First Name</label>
+        <input type="text" placeholder="e.g. Adaeze">
+      </div>
+      <div class="form-group">
+        <label>Your Email Address</label>
+        <input type="email" placeholder="you@yourbrand.com">
+      </div>
+      <button class="btn-primary" style="width:100%; text-align:center; border:none; font-family:'Jost',sans-serif; cursor:pointer;">
+        Send Me the Framework →
+      </button>
+      <p class="form-note">No spam. Just one useful email, then occasional insights from The Poetic Doc.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-header reveal">
+    <p class="section-eyebrow">Common Questions</p>
+    <h2>Everything You<br>Need to <em>Know</em></h2>
+  </div>
+
+  <div class="faq-list reveal">
+    <div class="faq-item open">
+      <div class="faq-q">
+        How long does a project typically take?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Most welcome and nurture sequences (5–7 emails) are delivered within 7–10 business days after our discovery call and research phase. Launch campaigns and larger projects may take 2–3 weeks. I'll always give you a clear timeline before we begin.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Do you write for brands outside Nigeria?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Absolutely. I work with brands across Nigeria and the United States, and I'm comfortable adapting tone and cultural context for both markets. Whether your audience is in Lagos or Los Angeles, the copy will feel native and resonant.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        What information do you need to get started?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">After the discovery call, I'll send a short creative brief: your brand voice, target audience, product/service details, past email performance (if any), and your goals. The more context you give me, the sharper the copy.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        How many revisions are included?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Every project includes two rounds of revisions at no extra cost. In practice, most clients are happy after the first draft — but the revisions are there to make sure every word earns its place.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        What industries do you specialise in?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">I've written for luxury brands, health & wellness, edtech, coaching, e-commerce, and personal brands. I'm particularly strong in any niche where storytelling and emotion drive the purchase decision — which is most of them.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contact">
+  <div class="final-cta-inner reveal">
+    <p class="section-eyebrow">Let's Work Together</p>
+    <h2>Your Next<br>Best Email Is<br><em>One Call Away</em></h2>
+    <p>Ready to turn your email list into a revenue engine? Book a free 30-minute strategy call — no pressure, just clarity on what your emails need to perform.</p>
+    <div class="cta-actions">
+      <a href="mailto:hello@thepoeticdoc.com" class="btn-primary">Book My Free Strategy Call</a>
+      <a href="https://instagram.com/thepoeticdoc_ng" target="_blank" class="btn-ghost">Follow @thepoeticdoc_ng →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">The Poetic <span>Doc</span></div>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="footer-social">
+      <a href="https://instagram.com/thepoeticdoc_ng" target="_blank" class="social-link">ig</a>
+      <a href="mailto:hello@thepoeticdoc.com" class="social-link">✉</a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    © 2025 The Poetic Doc. All rights reserved. · Email Copy for Brands That Believe in Beautiful Words.
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
